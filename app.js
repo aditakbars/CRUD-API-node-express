@@ -5,7 +5,7 @@ const conn = require('./config/db');
 
 const PORT = 5000;
 
-app.use(express.json);
+app.use(express.json());
 
 app.get('/get-buku', function (req, res){
     const queryStr = "SELECT * FROM buku WHERE deleted_at IS NULL";
