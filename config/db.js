@@ -3,7 +3,7 @@ const conn  = mysql.createPool({
     host: "localhost",
     user: "root",
     password: "",
-    database: "cobalagideh",
+    database: "perpustakaan_desa_boja",
     charset: "utf8mb4",
     timezone: "+07:00"
 });
