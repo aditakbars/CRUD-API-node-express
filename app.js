@@ -4,11 +4,14 @@ const app = express();
 const conn = require('./config/db');
 
 const PORT = 5000;
-
 app.use(express.json());
 
+app.get('/', (req, res) => res.send('WAWW udah jalan coy LESGOWW. halo btw'));
+
+app.listen(PORT, () => console.log(`Server Running on port: http://localhost:${PORT}`));
+
 app.get('/get-buku', function (req, res){
-    const queryStr = "SELECT * FROM buku WHERE deleted_at IS NULL";
+    const queryStr = "SELECT * FROM buku";
     conn.query(queryStr, (err, results) => {
         if (err){
             console.log(err);
@@ -62,7 +65,7 @@ app.get('/get-buku-by-id', function (req, res){
     const param = req.query;
     const id = param.id;
 
-    const queryStr = "SELECT * FROM buku WHERE deleted at IS NULL AND id = ?";
+    const queryStr = "SELECT * FROM buku WHERE id = ?";
     const values = [id];
 
     conn.query(queryStr, values, (err, results) => {
@@ -90,7 +93,7 @@ app.post('/update-buku', function (req, res){
     const penulis = param.penulis;
     const now = new Date();
 
-    const queryStr = "UPDATE buku SET judul = ?, penulis = ?, updated_at = ? WHERE id = ? AND deleted_at IS NULL";
+    const queryStr = "UPDATE buku SET judul = ?, penulis = ?, updated_at = ? AND WHERE id = ?";
     const values = [judul, penulis, now, id];
 
     conn.query(queryStr, values, (err, results) => {
@@ -118,8 +121,8 @@ app.post('/delete-buku', function (req, res){
     const id = param.id;
     const now = new Date();
 
-    const queryStr = "UPDATE buku SET deleted_at = ? WHERE id = ?";
-    const values = [now, id];
+    const queryStr = "DELETE FROM buku WHERE id = ?";
+    const values = [id];
 
     conn.query(queryStr, values, (err, results) => {
         if (err){
@@ -142,6 +145,3 @@ app.post('/delete-buku', function (req, res){
 
 })
 
-app.get('/', (req, res) => res.send('WAWW udah jalan coy LESGOWW. halo btw'));
-
-app.listen(PORT, () => console.log(`Server Running on port: http://localhost:${PORT}`));
