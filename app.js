@@ -88,9 +88,10 @@ app.post('/update-buku', function (req, res){
     const id = param.id;
     const judul = param.judul;
     const penulis = param.penulis;
+    const now = new Date();
 
-    conn.queryStr = "UPDATE buku SET judul = ?, penulis = ? WHERE id = ? AND deleted_at IS NULL";
-    const values = [judul, penulis, id];
+    const queryStr = "UPDATE buku SET judul = ?, penulis = ?, updated_at = ? WHERE id = ? AND deleted_at IS NULL";
+    const values = [judul, penulis, now, id];
 
     conn.query(queryStr, values, (err, results) => {
         if (err){
