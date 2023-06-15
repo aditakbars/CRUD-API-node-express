@@ -112,12 +112,12 @@ app.post('/update-buku', function (req, res){
 
 })
 
-app.delete('/delete-buku', function (req, res){
+app.post('/delete-buku', function (req, res){
     const param = req.body;
     const id = param.id;
     const now = new Date();
 
-    const queryStr = "UPDATE buku SET deleted_at = ? WHERE id = ?"
+    const queryStr = "UPDATE buku SET deleted_at = ? WHERE id = ?";
     const values = [now, id];
 
     conn.query(queryStr, values, (err, results) => {
