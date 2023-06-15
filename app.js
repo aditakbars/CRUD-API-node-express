@@ -119,9 +119,8 @@ app.post('/update-buku', function (req, res){
 app.post('/delete-buku', function (req, res){
     const param = req.body;
     const id = param.id;
-    const now = new Date();
 
-    const queryStr = "DELETE FROM buku WHERE id = ?";
+    let queryStr = "DELETE FROM buku WHERE id = ?";
     const values = [id];
 
     conn.query(queryStr, values, (err, results) => {
@@ -142,6 +141,43 @@ app.post('/delete-buku', function (req, res){
 
     } )
 
+    queryStr = "ALTER TABLE buku DROP id";
+    conn.query(queryStr, (err, results) => {
+        if (err){
+            console.log(err);
+            res.status(500).json({
+                "success": false,
+                "message" : err.sqlMessage,
+                "data": null
+            })
+        } else{
+            res.status(200).json({
+                "success": true,
+                "message" : "Sukses menghapus data",
+                "data": results
+            });
+        }
+
+    } )
+
+    queryStr = "ALTER TABLE buku ADD id INT NOT NULL AUTO_INCREMENT PRIMARY KEY FIRST";
+    conn.query(queryStr, (err, results) => {
+        if (err){
+            console.log(err);
+            res.status(500).json({
+                "success": false,
+                "message" : err.sqlMessage,
+                "data": null
+            })
+        } else{
+            res.status(200).json({
+                "success": true,
+                "message" : "Sukses menghapus data",
+                "data": results
+            });
+        }
+
+    } )
 
 })
 
